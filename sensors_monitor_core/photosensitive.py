@@ -18,7 +18,7 @@ class LightSensor(object):
         return self.state
 
     def monitor(self, monitor_step=0.5):
-        print "Monitoring started"
+        print ("Monitoring started")
         try:
             # Loop until users quits with CTRL-C
             while True :
@@ -26,12 +26,12 @@ class LightSensor(object):
                 self.detect_and_get()
                 if self.state==True and self.prev_state==False:
                     # PIR is triggered
-                    print "Light detected!"
+                    print ("Light detected!")
                 elif self.state==False and self.prev_state==True:
                     # REED has returned to ready state
-                    print "Ready"
+                    print ("Ready")
                 time.sleep(monitor_step)
         except KeyboardInterrupt:
-            print "Quit"
+            print ("Quit")
             # Reset GPIO settings
             GPIO.cleanup()

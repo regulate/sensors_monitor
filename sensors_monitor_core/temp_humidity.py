@@ -16,4 +16,4 @@ class DHT11(object):
 
     def read_and_print(self):
         self.read_and_get()
-        print "Temp: {self.temp}C, Humidity:{self.humidity}%".format(self = self)
+        print ("Temp: {self.temp}C, Humidity:{self.humidity}%".format(self = self))
