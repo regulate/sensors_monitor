@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-import ..sensors_monitor_core
+from ..sensors_monitor_core import *
 
 app = Flask(__name__)
 
