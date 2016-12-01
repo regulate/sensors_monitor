@@ -1,10 +1,29 @@
 from flask import Flask, jsonify
+from flask.json import JSONEncoder
 from ..sensors_monitor_core import DHT11, HCSR501, LightSensor
-
-app = Flask(__name__)
 
 VERSION=1.0
 BASE_PATH="/sensors-monitor/api/v{0}/sensors".format(VERSION)
+
+class MyJSONEncoder(JSONEncoder):
+    def default(self, obj):
+        if isinstance(obj, DHT11):
+            return {
+                'temperature': obj.temp,
+                'humidity': obj.humidity
+            }
+        elif isinstance(obj, HCSR501):
+            return {
+                'motion': obj.state
+            }
+        elif isinstance(obj, LightSensor):
+            return {
+                'light': obj.state
+            }
+        return super(MyJSONEncoder, self).default(obj)
+
+app = Flask(__name__)
+app.json_encoder = MyJSONEncoder
 
 @app.route(BASE_PATH)
 def hello():
