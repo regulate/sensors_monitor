@@ -1,5 +1,5 @@
 from flask import Flask, jsonify
-from ..sensors_monitor_core import motion, photosensitive, temp_humidity
+from ..sensors_monitor_core import DHT11, HCSR501, LightSensor
 
 app = Flask(__name__)
 
