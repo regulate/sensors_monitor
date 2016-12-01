@@ -35,8 +35,3 @@ class LightSensor(object):
             print "Quit"
             # Reset GPIO settings
             GPIO.cleanup()
-
-light_sensor = LightSensor(27)
-light = light_sensor.detect_and_get()
-print light
-light_sensor.monitor()

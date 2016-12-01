@@ -35,8 +35,3 @@ class HCSR501(object):
             print "Quit"
             # Reset GPIO settings
             GPIO.cleanup()
-
-hcsr501 = HCSR501(17)
-state = hcsr501.detect_and_get()
-print state
-hcsr501.monitor()
