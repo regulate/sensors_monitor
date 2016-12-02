@@ -19,7 +19,6 @@ class MyJSONEncoder(JSONEncoder):
                 'name': obj.name,
                 'pin_number': obj.pin_num,
                 'state': obj.state,
-                'previous_state': obj.prev_state
             }
         return super(MyJSONEncoder, self).default(obj)
 
