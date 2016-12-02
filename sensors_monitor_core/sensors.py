@@ -4,7 +4,7 @@ import Adafruit_DHT as DHT
 import time
 import sys
 
-class StateSensor(object):
+class ConditionSensor(object):
 
     def __init__(self, pin_num, name):
         self.name = name

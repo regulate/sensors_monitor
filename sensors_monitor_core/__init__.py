@@ -1,1 +1,1 @@
-from .sensors import DHT11, StateSensor
+from .sensors import DHT11, ConditionSensor
