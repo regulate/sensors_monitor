@@ -1,6 +1,6 @@
 from flask import Flask, jsonify
 from flask.json import JSONEncoder
-from ..sensors_monitor_core import DHT11, HCSR501, LightSensor
+from ..sensors_monitor_core import DHT11, StateSensor
 
 VERSION=1.0
 BASE_PATH="/sensors-monitor/api/v{0}/sensors".format(VERSION)
@@ -9,16 +9,17 @@ class MyJSONEncoder(JSONEncoder):
     def default(self, obj):
         if isinstance(obj, DHT11):
             return {
+                'name': 'dht11',
+                'pin_number': obj.pin_num,
                 'temperature': obj.temp,
                 'humidity': obj.humidity
             }
-        elif isinstance(obj, HCSR501):
+        elif isinstance(obj, StateSensor):
             return {
-                'motion': obj.state
-            }
-        elif isinstance(obj, LightSensor):
-            return {
-                'light': obj.state
+                'name': obj.name,
+                'pin_number': obj.pin_num,
+                'state': obj.state,
+                'previous_state': ob.previous_state
             }
         return super(MyJSONEncoder, self).default(obj)
 
@@ -33,19 +34,19 @@ def hello():
 def dht11():
     sensor = DHT11(4)
     sensor.read_and_get()
-    return jsonify({'dht11':sensor})
+    return jsonify({'sensor':sensor})
 
 @app.route(BASE_PATH+"/hcsr501")
 def hcsr501():
-    sensor = HCSR501(17)
+    sensor = StateSensor(17, 'hcsr501')
     sensor.detect_and_get()
-    return jsonify({'hcsr501':sensor})
+    return jsonify({'sensor':sensor})
 
 @app.route(BASE_PATH+"/lightsensor")
 def lightsensor():
-    sensor = LightSensor(27)
+    sensor = StateSensor(27)
     sensor.detect_and_get()
-    return jsonify({'lightsensor':sensor})
+    return jsonify({'sensor':sensor})
 
 if __name__ == "__main__":
     app.run()

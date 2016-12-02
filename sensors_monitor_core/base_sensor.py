@@ -2,34 +2,35 @@
 import RPi.GPIO as GPIO
 import time
 
-class HCSR501(object):
+class StateSensor(object):
 
-    def __init__(self, pin_num):
+    def __init__(self, pin_num, name):
         super(HCSR501, self).__init__()
-        self.state = False
-        self.prev_state = False
+        self.name = name
+        self.state = None
+        self.prev_state = None
         self.pin_num = pin_num
         GPIO.setmode(GPIO.BCM)
         GPIO.setup(pin_num, GPIO.IN)
 
     def detect_and_get(self):
         self.prev_state = self.state;
-        self.state = True if GPIO.input(self.pin_num)==1 else False
+        self.state = GPIO.input(self.pin_num)
         return self.state
 
     def monitor(self, monitor_step=0.5):
-        print ("Monitoring started")
+        print (self.name + ": monitoring started")
         try:
             # Loop until users quits with CTRL-C
             while True :
                 # Read PIR state
                 self.detect_and_get()
-                if self.state==True and self.prev_state==False:
+                if self.state==1 and self.prev_state==0:
                     # PIR is triggered
-                    print ("Motion detected!")
+                    print (self.name + ": state changed to 1")
                 elif self.state==False and self.prev_state==True:
                     # REED has returned to ready state
-                    print ("Ready")
+                    print (self.name + ": state changed to 0")
                 time.sleep(monitor_step)
         except KeyboardInterrupt:
             print ("Quit")
