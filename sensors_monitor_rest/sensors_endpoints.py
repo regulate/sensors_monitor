@@ -19,7 +19,7 @@ class MyJSONEncoder(JSONEncoder):
                 'name': obj.name,
                 'pin_number': obj.pin_num,
                 'state': obj.state,
-                'previous_state': ob.previous_state
+                'previous_state': obj.previous_state
             }
         return super(MyJSONEncoder, self).default(obj)
 
@@ -27,8 +27,14 @@ app = Flask(__name__)
 app.json_encoder = MyJSONEncoder
 
 @app.route(BASE_PATH)
-def hello():
-    return jsonify({'sensors':'all sensors'})
+def sensors():
+    dht11 = DHT11(4)
+    dht11.read_and_get()
+    hcsr501 = StateSensor(17, 'hcsr501')
+    hcsr501.detect_and_get()
+    light = StateSensor(27, 'light sensor')
+    light.detect_and_get()
+    return jsonify({'sensors':[dht11, hcsr501, light]})
 
 @app.route(BASE_PATH+"/dht11")
 def dht11():
