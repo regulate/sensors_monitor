@@ -5,7 +5,6 @@ import time
 class StateSensor(object):
 
     def __init__(self, pin_num, name):
-        super(HCSR501, self).__init__()
         self.name = name
         self.state = None
         self.prev_state = None
