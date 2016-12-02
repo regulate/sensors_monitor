@@ -44,7 +44,7 @@ def hcsr501():
 
 @app.route(BASE_PATH+"/lightsensor")
 def lightsensor():
-    sensor = StateSensor(27)
+    sensor = StateSensor(27, 'light sensor')
     sensor.detect_and_get()
     return jsonify({'sensor':sensor})
 
